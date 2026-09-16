@@ -6,6 +6,15 @@ namespace OrderManagement.Application.Orders;
 
 public class OrderService : IOrderService
 {
+    private static readonly IReadOnlyDictionary<OrderStatus, OrderStatus[]> AllowedTransitions = new Dictionary<OrderStatus, OrderStatus[]>
+    {
+        [OrderStatus.Pending] = [OrderStatus.Processing, OrderStatus.Cancelled],
+        [OrderStatus.Processing] = [OrderStatus.Shipped, OrderStatus.Cancelled],
+        [OrderStatus.Shipped] = [OrderStatus.Delivered, OrderStatus.Cancelled],
+        [OrderStatus.Delivered] = [],
+        [OrderStatus.Cancelled] = []
+    };
+
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -94,6 +103,11 @@ public class OrderService : IOrderService
             return null;
         }
 
+        if (!AllowedTransitions[order.Status].Contains(dto.Status))
+        {
+            throw new InvalidOperationException($"Invalid status transition from '{order.Status}' to '{dto.Status}'.");
+        }
+
         order.Status = dto.Status;
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -107,6 +121,11 @@ public class OrderService : IOrderService
         if (order is null)
         {
             return null;
+        }
+
+        if (!AllowedTransitions[order.Status].Contains(OrderStatus.Cancelled))
+        {
+            throw new InvalidOperationException($"Order in status '{order.Status}' cannot be cancelled.");
         }
 
         order.Status = OrderStatus.Cancelled;

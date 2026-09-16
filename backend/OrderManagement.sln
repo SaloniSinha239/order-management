@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.WebAPI", "OrderManagement.WebAPI\OrderManagement.WebAPI.csproj", "{0B9217A6-90A7-47AC-98CF-E39E1EA24F6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Tests", "OrderManagement.Tests\OrderManagement.Tests.csproj", "{8CA5FF85-BD52-4AA2-B284-0928651AEF23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{0B9217A6-90A7-47AC-98CF-E39E1EA24F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B9217A6-90A7-47AC-98CF-E39E1EA24F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9217A6-90A7-47AC-98CF-E39E1EA24F6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CA5FF85-BD52-4AA2-B284-0928651AEF23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CA5FF85-BD52-4AA2-B284-0928651AEF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CA5FF85-BD52-4AA2-B284-0928651AEF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CA5FF85-BD52-4AA2-B284-0928651AEF23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
