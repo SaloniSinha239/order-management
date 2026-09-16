@@ -4,5 +4,5 @@ namespace OrderManagement.Domain.Interfaces;
 
 public interface IProductRepository : IRepository<Product>
 {
-    Task<(IReadOnlyList<Product> Items, int TotalCount)> GetPagedAsync(int page, int pageSize, Guid? categoryId = null, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<Product> Items, int TotalCount)> GetPagedAsync(int page, int pageSize, Guid? categoryId = null, string? search = null, CancellationToken cancellationToken = default);
 }

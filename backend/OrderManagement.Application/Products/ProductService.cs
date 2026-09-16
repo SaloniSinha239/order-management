@@ -23,7 +23,7 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<PagedResult<ProductDto>> GetAllAsync(int page, int pageSize, Guid? categoryId = null, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<ProductDto>> GetAllAsync(int page, int pageSize, Guid? categoryId = null, string? search = null, CancellationToken cancellationToken = default)
     {
         if (page < 1)
         {
@@ -35,7 +35,7 @@ public class ProductService : IProductService
             throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be between 1 and 100.");
         }
 
-        var (items, totalCount) = await _productRepository.GetPagedAsync(page, pageSize, categoryId, cancellationToken);
+        var (items, totalCount) = await _productRepository.GetPagedAsync(page, pageSize, categoryId, search, cancellationToken);
         return new PagedResult<ProductDto>(_mapper.Map<IReadOnlyList<ProductDto>>(items), page, pageSize, totalCount);
     }
 

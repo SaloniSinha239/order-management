@@ -70,7 +70,7 @@ public class CategoryService : ICategoryService
             return false;
         }
 
-        var (_, productCount) = await _productRepository.GetPagedAsync(1, 1, categoryId, cancellationToken);
+        var (_, productCount) = await _productRepository.GetPagedAsync(1, 1, categoryId, cancellationToken: cancellationToken);
 
         if (productCount > 0)
         {

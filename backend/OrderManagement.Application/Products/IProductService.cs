@@ -2,7 +2,7 @@ namespace OrderManagement.Application.Products;
 
 public interface IProductService
 {
-    Task<PagedResult<ProductDto>> GetAllAsync(int page, int pageSize, Guid? categoryId = null, CancellationToken cancellationToken = default);
+    Task<PagedResult<ProductDto>> GetAllAsync(int page, int pageSize, Guid? categoryId = null, string? search = null, CancellationToken cancellationToken = default);
     Task<ProductDto?> GetByIdAsync(Guid productId, CancellationToken cancellationToken = default);
     Task<ProductDto> CreateAsync(CreateProductDto dto, CancellationToken cancellationToken = default);
     Task<ProductDto?> UpdateAsync(Guid productId, UpdateProductDto dto, CancellationToken cancellationToken = default);
