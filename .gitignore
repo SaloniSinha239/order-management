@@ -1,0 +1,35 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+.vs/
+artifacts/
+TestResults/
+*.binlog
+project.assets.json
+project.nuget.cache
+
+# Node / Angular
+node_modules/
+dist/
+.ngangular/
+.angular/
+coverage/
+.npmrc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json.bak
+.tmp/
+out-tsc/
+
+# IDE / OS
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
