@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { CustomerDto, CustomerService } from './customer.service';
+import { CustomerDto, CustomerService, PagedCustomers } from './customer.service';
 
 @Component({
   standalone: true,
@@ -24,7 +24,8 @@ import { CustomerDto, CustomerService } from './customer.service';
             <span class="visually-hidden">Loading…</span>
           </div>
         </div>
-      } @else if (data(); as page) {
+      } @else {
+        @if (data(); as paged) {
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead class="table-light">
@@ -40,7 +41,7 @@ import { CustomerDto, CustomerService } from './customer.service';
               </tr>
             </thead>
             <tbody>
-              @for (customer of page.items; track customer.id) {
+              @for (customer of paged.items; track customer.id) {
                 <tr>
                   <td>{{ customer.name }}</td>
                   <td>{{ customer.email }}</td>
@@ -66,25 +67,26 @@ import { CustomerDto, CustomerService } from './customer.service';
 
         <div class="d-flex justify-content-between align-items-center">
           <span class="text-muted small">
-            {{ page.totalCount }} customer(s) — page {{ page.page }} of {{ totalPages(page) }}
+            {{ paged.totalCount }} customer(s) — page {{ paged.page }} of {{ totalPages(paged) }}
           </span>
           <div class="btn-group">
             <button
               class="btn btn-sm btn-outline-secondary"
               type="button"
-              [disabled]="page.page <= 1 || loading()"
-              (click)="goToPage(page.page - 1)">
+              [disabled]="paged.page <= 1 || loading()"
+              (click)="goToPage(paged.page - 1)">
               ‹ Prev
             </button>
             <button
               class="btn btn-sm btn-outline-secondary"
               type="button"
-              [disabled]="page.page >= totalPages(page) || loading()"
-              (click)="goToPage(page.page + 1)">
+              [disabled]="paged.page >= totalPages(paged) || loading()"
+              (click)="goToPage(paged.page + 1)">
               Next ›
             </button>
           </div>
         </div>
+        }
       }
     </div>
   `
@@ -97,7 +99,7 @@ export class CustomerListComponent implements OnInit {
   readonly isAdmin = computed(() => this.authService.hasRole('Admin'));
   readonly pageSizes = [5, 10, 20, 50];
 
-  readonly data = signal<Paged | null>(null);
+  readonly data = signal<PagedCustomers | null>(null);
   readonly loading = signal(true);
   readonly deleting = signal(false);
   readonly error = signal('');
@@ -108,7 +110,7 @@ export class CustomerListComponent implements OnInit {
     this.load();
   }
 
-  totalPages(page: Paged): number {
+  totalPages(page: PagedCustomers): number {
     return Math.max(1, Math.ceil(page.totalCount / page.pageSize));
   }
 
@@ -153,11 +155,4 @@ export class CustomerListComponent implements OnInit {
       }
     });
   }
-}
-
-interface Paged {
-  items: unknown[];
-  page: number;
-  pageSize: number;
-  totalCount: number;
 }

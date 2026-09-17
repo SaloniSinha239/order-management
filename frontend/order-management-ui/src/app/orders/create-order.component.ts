@@ -123,10 +123,7 @@ export class CreateOrderComponent {
     }
   }
 
-  protected get items(): FormArray<{
-    productId: string;
-    quantity: number;
-  }> {
+  protected get items() {
     return this.form.controls.items;
   }
 

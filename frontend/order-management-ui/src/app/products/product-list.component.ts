@@ -65,7 +65,8 @@ import { PagedResult, ProductDto, ProductService } from './product.service';
             <span class="visually-hidden">Loading…</span>
           </div>
         </div>
-      } @else if (data(); as page) {
+      } @else {
+        @if (data(); as paged) {
         <div class="table-responsive">
           <table class="table table-hover align-middle">
             <thead class="table-light">
@@ -79,7 +80,7 @@ import { PagedResult, ProductDto, ProductService } from './product.service';
               </tr>
             </thead>
             <tbody>
-              @for (product of page.items; track product.id) {
+              @for (product of paged.items; track product.id) {
                 <tr>
                   <td>{{ product.name }}</td>
                   <td><code>{{ product.sku }}</code></td>
@@ -111,25 +112,26 @@ import { PagedResult, ProductDto, ProductService } from './product.service';
 
         <div class="d-flex justify-content-between align-items-center">
           <span class="text-muted small">
-            {{ page.totalCount }} product(s) — page {{ page.page }} of {{ page.totalPages }}
+            {{ paged.totalCount }} product(s) — page {{ paged.page }} of {{ paged.totalPages }}
           </span>
           <div class="btn-group">
             <button
               class="btn btn-sm btn-outline-secondary"
               type="button"
-              [disabled]="page.page <= 1 || loading()"
-              (click)="goToPage(page.page - 1)">
+              [disabled]="paged.page <= 1 || loading()"
+              (click)="goToPage(paged.page - 1)">
               ‹ Prev
             </button>
             <button
               class="btn btn-sm btn-outline-secondary"
               type="button"
-              [disabled]="page.page >= page.totalPages || loading()"
-              (click)="goToPage(page.page + 1)">
+              [disabled]="paged.page >= paged.totalPages || loading()"
+              (click)="goToPage(paged.page + 1)">
               Next ›
             </button>
           </div>
         </div>
+        }
       }
     </div>
   `

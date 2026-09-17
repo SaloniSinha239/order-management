@@ -24,7 +24,8 @@ import { OrderDto, OrderService, OrderStatus } from './order.service';
             <span class="visually-hidden">Loading…</span>
           </div>
         </div>
-      } @else if (order(); as current) {
+      } @else {
+        @if (order(); as current) {
         <div class="card shadow-sm mb-3">
           <div class="card-body">
             <div class="row g-3">
@@ -100,6 +101,7 @@ import { OrderDto, OrderService, OrderStatus } from './order.service';
               </button>
             </div>
           </div>
+        }
         }
       }
     </div>

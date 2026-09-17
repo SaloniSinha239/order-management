@@ -63,8 +63,14 @@ CHROME_BIN=/usr/bin/chromium-browser npx ng test --watch=false --browsers=Chrome
 - Backend: `OrderManagement.Tests` (NUnit + Moq) — `OrderServiceTests`, `ProductServiceTests`, `CustomerServiceTests` (19 passing, 1 ignored pending duplicate-email validation)
 - Frontend: `auth.service.spec.ts`, `order-list.component.spec.ts` (10 passing)
 
+### Wiring
+
+- Backend: `Program.cs` calls `AddApplication()` (services + AutoMapper profiles), `AddInfrastructure(...)` (DbContext, repositories, Identity, TokenService); `ExceptionHandlingMiddleware` maps `InvalidOperationException`/`ArgumentOutOfRangeException` to 400 ProblemDetails responses; CORS is open to `http://localhost:4200` (Angular dev server); the `http` launch profile serves on `http://localhost:5000` to match the frontend environment
+- Frontend: `app.config.ts` provides `HttpClient` with `authInterceptor`; `app.routes.ts` mounts login/register, orders (behind `authGuard`), and spreads the `productRoutes`/`customerRoutes` groups (admin/manager routes behind `roleGuard`)
+
 ### Known TODOs
 
-- Register `IOrderService`/`IProductService`/`ICustomerService`/`ICategoryService`, AutoMapper profiles, and `provideHttpClient(withInterceptors([authInterceptor]))` in the frontend `app.config.ts`; wire feature route files into `app.routes.ts`
-- Service-layer exceptions (validation/stock/transition errors) currently surface as HTTP 500s — add exception-handling middleware for 400/409 mapping
+- Duplicate-email validation on customer create (`CustomerServiceTests.CreateCustomerAsync_WithDuplicateEmail_Throws` is `[Ignore]`d until implemented)
 - Replace the placeholder JWT secret and DB credentials before any real deployment
+- The category filter in the products list is a raw GUID input (no category dropdown service yet)
+- Business rule violations surface as generic 400 ProblemDetails; consider distinct 409/404 semantics per case

@@ -29,7 +29,8 @@ import { ProductDto, ProductService } from './product.service';
             <span class="visually-hidden">Loading…</span>
           </div>
         </div>
-      } @else if (product(); as current) {
+      } @else {
+        @if (product(); as current) {
         <div class="card shadow-sm mb-3">
           <div class="card-body">
             <div class="row g-3">
@@ -78,6 +79,7 @@ import { ProductDto, ProductService } from './product.service';
               </button>
             </div>
           </div>
+        }
         }
       }
     </div>
